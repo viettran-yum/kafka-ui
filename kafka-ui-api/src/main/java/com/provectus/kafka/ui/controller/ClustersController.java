@@ -1,10 +1,14 @@
 package com.provectus.kafka.ui.controller;
 
+import static com.provectus.kafka.ui.util.enums.Permission.*;
+
+import com.provectus.kafka.ui.util.annotation.Secured;
 import com.provectus.kafka.ui.api.ClustersApi;
 import com.provectus.kafka.ui.model.ClusterDTO;
 import com.provectus.kafka.ui.model.ClusterMetricsDTO;
 import com.provectus.kafka.ui.model.ClusterStatsDTO;
 import com.provectus.kafka.ui.service.ClusterService;
+import com.provectus.kafka.ui.util.enums.Permission;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +40,7 @@ public class ClustersController extends AbstractController implements ClustersAp
   }
 
   @Override
+  @Secured(requiredPermissions = CLUSTERS_VIEW)
   public Mono<ResponseEntity<Flux<ClusterDTO>>> getClusters(ServerWebExchange exchange) {
     return Mono.just(ResponseEntity.ok(Flux.fromIterable(clusterService.getClusters())));
   }

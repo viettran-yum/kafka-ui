@@ -218,6 +218,12 @@
             <version>${datasketches-java.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson-dataformat-yaml.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -443,23 +449,6 @@
                         <configuration>
                             <skipPush>true</skipPush>
                         </configuration>
-                        <executions>
-                            <execution>
-                                <id>default</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <tag>${git.revision}</tag>
-                                    <repository>provectuslabs/kafka-ui</repository>
-                                    <buildArgs>
-                                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                                        <JAR_NAME>${project.artifactId}.jar</JAR_NAME>
-                                    </buildArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>

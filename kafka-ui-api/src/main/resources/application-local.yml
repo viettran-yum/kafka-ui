@@ -32,3 +32,5 @@ spring:
     enabled: true
 auth:
   type: DISABLED
+
+roles.file: /tmp/roles.yml
