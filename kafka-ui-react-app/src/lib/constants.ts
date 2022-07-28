@@ -4,6 +4,8 @@ import { BreadcrumbDefinitions } from 'components/common/Breadcrumb/Breadcrumb';
 declare global {
   interface Window {
     basePath: string;
+    __dynamicImportHandler__(i: string): string;
+    __dynamicImportPreload__(i: string[]): string[];
   }
 }
 

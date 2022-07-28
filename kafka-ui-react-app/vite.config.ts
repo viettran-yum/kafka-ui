@@ -1,12 +1,20 @@
 import { defineConfig, loadEnv, UserConfigExport } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { useDynamicPublicPath } from 'vite-plugin-dynamic-publicpath';
 
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   const defaultConfig: UserConfigExport = {
-    plugins: [react(), tsconfigPaths()],
+    plugins: [
+      react(),
+      tsconfigPaths(),
+      useDynamicPublicPath({
+        dynamicImportHandler: 'window.__dynamic_handler__',
+        dynamicImportPreload: 'window.__dynamic_preload__',
+      }),
+    ],
     server: {
       port: 3000,
     },

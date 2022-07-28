@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,6 +7,12 @@ import App from 'components/App';
 import { store } from 'redux/store';
 import 'theme/index.scss';
 import 'lib/constants';
+
+window.__dynamicImportHandler__ = (importer: string) =>
+  window.basePath + importer;
+
+window.__dynamicImportPreload__ = (preloads: string[]) =>
+  preloads.map((preload) => window.basePath + preload);
 
 const container =
   document.getElementById('root') || document.createElement('div');
