@@ -45,14 +45,10 @@ import org.testcontainers.utility.DockerImageName;
 @DisplayNameGeneration(CamelCaseToSpacedDisplayNameGenerator.class)
 public class BaseTest {
 
-  public static final String SELENIUM_IMAGE_NAME = "selenium/standalone-chrome";
-  public static final String SELENIARM_STANDALONE_CHROMIUM = "seleniarm/standalone-chromium";
   protected Pages pages = Pages.INSTANCE;
   protected Helpers helpers = Helpers.INSTANCE;
 
   private Screenshooter screenshooter = new Screenshooter();
-
-  protected static BrowserWebDriverContainer<?> webDriverContainer = null;
 
   public void compareScreenshots(String name) {
     screenshooter.compareScreenshots(name);
@@ -64,56 +60,24 @@ public class BaseTest {
 
   @BeforeEach
   public void setWebDriver() {
-    RemoteWebDriver remoteWebDriver = webDriverContainer.getWebDriver();
+    RemoteWebDriver remoteWebDriver = WebDriverService.getWebDriverContainer().getWebDriver();
     WebDriverRunner.setWebDriver(remoteWebDriver);
     remoteWebDriver.manage().window().setSize(new Dimension(1440, 1024));
   }
 
   @BeforeAll
   public static void start() {
-    if (webDriverContainer != null && webDriverContainer.isRunning()) {
-      log.info("Container has already started, skipping");
-      return;
-    }
-
-    DockerImageName image = isARM64()
-        ? DockerImageName.parse(SELENIARM_STANDALONE_CHROMIUM).asCompatibleSubstituteFor(SELENIUM_IMAGE_NAME)
-        : DockerImageName.parse(SELENIUM_IMAGE_NAME);
-    log.info("Using [{}] as image name for chrome", image.getUnversionedPart());
-
-    webDriverContainer = new BrowserWebDriverContainer<>(image)
-        .withEnv("JAVA_OPTS", "-Dwebdriver.chrome.whitelistedIps=")
-        .withCapabilities(new ChromeOptions()
-            .addArguments("--disable-dev-shm-usage")
-            .addArguments("--verbose")
-        )
-        .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")); // uncomment for debugging
-
-    WaitStrategy logWaitStrategy = (new LogMessageWaitStrategy())
-        .withRegEx(".*(RemoteWebDriver instances should connect to|Selenium Server is up and running|Started Selenium Standalone).*\n")
-        .withStartupTimeout(Duration.of(25L, ChronoUnit.SECONDS));
-    WaitStrategy waitStrategy = (new WaitAllStrategy())
-        .withStrategy(logWaitStrategy)
-        .withStrategy(new HostPortWaitStrategy())
-        .withStartupTimeout(Duration.of(25L, ChronoUnit.SECONDS));
-
-    webDriverContainer.setWaitStrategy(waitStrategy);
-
-    try {
-      Testcontainers.exposeHostPorts(8080);
-      log.info("Starting browser container");
-      webDriverContainer.start();
-    } catch (Throwable e) {
-      log.error("Couldn't start a container", e);
-    }
+    WebDriverService.start();
   }
 
   @AfterAll
   public static void tearDown() {
-    if (webDriverContainer.isRunning()) {
-      webDriverContainer.close();
-      webDriverContainer.stop();
-    }
+    final BrowserWebDriverContainer<?> webDriverContainer = WebDriverService.getWebDriverContainer();
+//    if (webDriverContainer.isRunning()) {
+//      webDriverContainer.close();
+//      webDriverContainer.stop();
+//    }
+    // TODO: shutdown hook
   }
 
   static {
@@ -141,6 +105,7 @@ public class BaseTest {
 
   @AfterEach
   public void afterMethod() {
+    final BrowserWebDriverContainer<?> webDriverContainer = WebDriverService.getWebDriverContainer();
     Allure.addAttachment("Screenshot",
         new ByteArrayInputStream(
             ((TakesScreenshot) webDriverContainer.getWebDriver()).getScreenshotAs(OutputType.BYTES)));
@@ -173,7 +138,4 @@ public class BaseTest {
     }
   }
 
-  private static boolean isARM64() {
-    return System.getProperty("os.arch").equals("aarch64");
-  }
 }
