@@ -10,6 +10,7 @@ specifiers:
   '@hookform/error-message': ^2.0.0
   '@hookform/resolvers': ^2.7.1
   '@jest/types': ^28.1.1
+  '@microsoft/fetch-event-source': ^2.0.1
   '@openapitools/openapi-generator-cli': ^2.5.1
   '@reduxjs/toolkit': ^1.8.3
   '@szhsin/react-menu': ^3.1.1
@@ -95,6 +96,7 @@ dependencies:
   '@babel/plugin-transform-react-jsx': 7.18.6_@babel+core@7.18.2
   '@hookform/error-message': 2.0.0_l2dcsysovzdujulgxvsen7vbsm
   '@hookform/resolvers': 2.8.9_react-hook-form@7.6.9
+  '@microsoft/fetch-event-source': 2.0.1
   '@reduxjs/toolkit': 1.8.3_ctm756ikdwcjcvyfxxwskzbr6q
   '@szhsin/react-menu': 3.1.1_ef5jwxihqo6n7gxfmzogljlgcm
   '@tanstack/react-query': 4.0.5_ef5jwxihqo6n7gxfmzogljlgcm
@@ -2188,6 +2190,10 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.0.7
       '@jridgewell/sourcemap-codec': 1.4.13
+
+  /@microsoft/fetch-event-source/2.0.1:
+    resolution: {integrity: sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==}
+    dev: false
 
   /@nestjs/common/8.4.4_47vcjb2de6lyibr6g4enoa5lyu:
     resolution: {integrity: sha512-QHi7QcgH/5Jinz+SCfIZJkFHc6Cch1YsAEGFEhi6wSp6MILb0sJMQ1CX06e9tCOAjSlBwaJj4PH0eFCVau5v9Q==}

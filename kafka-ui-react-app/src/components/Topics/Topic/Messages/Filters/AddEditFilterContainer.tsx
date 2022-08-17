@@ -21,7 +21,7 @@ const validationSchema = yup.object().shape({
   }),
 });
 
-export interface AddEditFilterContainerProps {
+interface AddEditFilterContainerProps {
   cancelBtnHandler: () => void;
   submitBtnText: string;
   inputDisplayNameDefaultValue?: string;

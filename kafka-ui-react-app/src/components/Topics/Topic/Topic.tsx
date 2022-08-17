@@ -35,6 +35,7 @@ import { CleanUpPolicy } from 'generated-sources';
 import PageLoader from 'components/common/PageLoader/PageLoader';
 
 import Messages from './Messages/Messages';
+import MessagesV2 from './MessagesV2/Messages';
 import Overview from './Overview/Overview';
 import Settings from './Settings/Settings';
 import TopicConsumerGroups from './ConsumerGroups/TopicConsumerGroups';
@@ -177,7 +178,7 @@ const Topic: React.FC = () => {
           <Route index element={<Overview />} />
           <Route
             path={clusterTopicMessagesRelativePath}
-            element={<Messages />}
+            element={<MessagesV2 />}
           />
           <Route
             path={clusterTopicSettingsRelativePath}
