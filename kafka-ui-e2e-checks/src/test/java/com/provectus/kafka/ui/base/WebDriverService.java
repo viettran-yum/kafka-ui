@@ -47,11 +47,11 @@ public class WebDriverService {
 
     WaitStrategy logWaitStrategy = (new LogMessageWaitStrategy())
         .withRegEx(".*(RemoteWebDriver instances should connect to|Selenium Server is up and running|Started Selenium Standalone).*\n")
-        .withStartupTimeout(Duration.of(25L, ChronoUnit.SECONDS));
+        .withStartupTimeout(Duration.of(5L, ChronoUnit.MINUTES));
     WaitStrategy waitStrategy = (new WaitAllStrategy())
         .withStrategy(logWaitStrategy)
         .withStrategy(new HostPortWaitStrategy())
-        .withStartupTimeout(Duration.of(25L, ChronoUnit.SECONDS));
+        .withStartupTimeout(Duration.of(5L, ChronoUnit.MINUTES));
 
     webDriverContainer.setWaitStrategy(waitStrategy);
 
