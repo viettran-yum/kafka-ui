@@ -77,9 +77,9 @@ public class BaseTest {
             .addArguments("--disable-dev-shm-usage")
             .addArguments("--verbose")
         )
-        .waitingFor(Wait.forHttp("/"))
-        .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")) // uncomment for debugging
-        .waitingFor(Wait.forLogMessage(".*Started Selenium Standalone.*", 1));
+//        .waitingFor(Wait.forHttp("/"))
+        .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")); // uncomment for debugging
+//        .waitingFor(Wait.forLogMessage(".*Started Selenium Standalone.*", 1));
     try {
       Testcontainers.exposeHostPorts(8080);
       webDriverContainer.start();
