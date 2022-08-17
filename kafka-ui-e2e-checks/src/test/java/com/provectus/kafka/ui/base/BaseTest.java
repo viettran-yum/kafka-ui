@@ -71,7 +71,7 @@ public class BaseTest {
 
   @BeforeAll
   public static void start() {
-    if (webDriverContainer.isRunning()) {
+    if (webDriverContainer != null && webDriverContainer.isRunning()) {
       log.info("Container has already started, skipping");
       return;
     }
