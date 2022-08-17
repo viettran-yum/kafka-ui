@@ -78,7 +78,7 @@ public class BaseTest {
             .addArguments("--verbose")
         )
         .waitingFor(Wait.forHttp("/"))
-//        .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")) // uncomment for debugging
+        .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")) // uncomment for debugging
         .waitingFor(Wait.forLogMessage(".*Started Selenium Standalone.*", 1));
     try {
       Testcontainers.exposeHostPorts(8080);
