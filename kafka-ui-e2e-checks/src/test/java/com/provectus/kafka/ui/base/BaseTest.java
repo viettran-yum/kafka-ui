@@ -71,6 +71,10 @@ public class BaseTest {
 
   @BeforeAll
   public static void start() {
+    if (webDriverContainer.isRunning()) {
+      log.info("Container has already started, skipping");
+      return;
+    }
 
     DockerImageName image = isARM64()
         ? DockerImageName.parse(SELENIARM_STANDALONE_CHROMIUM).asCompatibleSubstituteFor(SELENIUM_IMAGE_NAME)
@@ -97,6 +101,7 @@ public class BaseTest {
 
     try {
       Testcontainers.exposeHostPorts(8080);
+      log.info("Starting browser container");
       webDriverContainer.start();
     } catch (Throwable e) {
       log.error("Couldn't start a container", e);
