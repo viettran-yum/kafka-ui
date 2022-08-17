@@ -15,6 +15,8 @@ import io.qameta.allure.selenide.AllureSelenide;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +34,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testcontainers.Testcontainers;
 import org.testcontainers.containers.BrowserWebDriverContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
+import org.testcontainers.containers.wait.strategy.HostPortWaitStrategy;
+import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.containers.wait.strategy.WaitAllStrategy;
+import org.testcontainers.containers.wait.strategy.WaitStrategy;
 import org.testcontainers.utility.DockerImageName;
 
 @Slf4j
@@ -77,9 +83,18 @@ public class BaseTest {
             .addArguments("--disable-dev-shm-usage")
             .addArguments("--verbose")
         )
-//        .waitingFor(Wait.forHttp("/"))
         .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")); // uncomment for debugging
-//        .waitingFor(Wait.forLogMessage(".*Started Selenium Standalone.*", 1));
+
+    WaitStrategy logWaitStrategy = (new LogMessageWaitStrategy())
+        .withRegEx(".*(RemoteWebDriver instances should connect to|Selenium Server is up and running|Started Selenium Standalone).*\n")
+        .withStartupTimeout(Duration.of(25L, ChronoUnit.SECONDS));
+    WaitStrategy waitStrategy = (new WaitAllStrategy())
+        .withStrategy(logWaitStrategy)
+        .withStrategy(new HostPortWaitStrategy())
+        .withStartupTimeout(Duration.of(25L, ChronoUnit.SECONDS));
+
+    webDriverContainer.setWaitStrategy(waitStrategy);
+
     try {
       Testcontainers.exposeHostPorts(8080);
       webDriverContainer.start();
