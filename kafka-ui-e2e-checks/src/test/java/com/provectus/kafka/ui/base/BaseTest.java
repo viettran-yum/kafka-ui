@@ -31,6 +31,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testcontainers.Testcontainers;
 import org.testcontainers.containers.BrowserWebDriverContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
@@ -77,7 +78,7 @@ public class BaseTest {
             .addArguments("--verbose")
         )
         .waitingFor(Wait.forHttp("/"))
-        //.withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")) // uncomment for debugging
+        .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")) // uncomment for debugging
         .waitingFor(Wait.forLogMessage(".*Selenium Server is up and running.*", 1));
     try {
       Testcontainers.exposeHostPorts(8080);
