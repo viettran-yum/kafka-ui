@@ -45,6 +45,7 @@ public class WebDriverService {
         .withCapabilities(new ChromeOptions()
             .addArguments("--disable-dev-shm-usage")
             .addArguments("--verbose")
+            .addArguments("--disable-gpu")
         )
         .withLogConsumer(new Slf4jLogConsumer(log).withPrefix("[CHROME]: ")); // uncomment for debugging
 
