@@ -51,6 +51,7 @@ export const NOT_SET = -1;
 export const BYTES_IN_GB = 1_073_741_824;
 
 export const PER_PAGE = 25;
+export const MESSAGES_PER_PAGE = '100';
 
 export const GIT_REPO_LINK = 'https://github.com/provectus/kafka-ui';
 export const GIT_REPO_LATEST_RELEASE_LINK =

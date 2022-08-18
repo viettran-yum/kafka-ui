@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
-import { BASE_PARAMS } from 'lib/constants';
+import { BASE_PARAMS, MESSAGES_PER_PAGE } from 'lib/constants';
 import { ClusterName } from 'redux/interfaces';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -37,12 +37,18 @@ export const useTopicMessages = ({
       setIsFetching(true);
       const url = `${BASE_PARAMS.basePath}/api/clusters/${clusterName}/topics/${topicName}/messages`;
 
+      // API use `limit` param insted of `perPage`. So we need to replace it manually.
+      const limit = searchParams.get('perPage') || MESSAGES_PER_PAGE;
+      searchParams.delete('perPage');
+      searchParams.set('limit', limit);
+
       await fetchEventSource(`${url}?${searchParams.toString()}`, {
         method: 'GET',
         signal: controller.signal,
         async onopen(response) {
           const { ok, status } = response;
           if (ok && status === 200) {
+            // Reset list of messages.
             setMessages([]);
           } else if (status >= 400 && status < 500 && status !== 429) {
             showServerError(response);

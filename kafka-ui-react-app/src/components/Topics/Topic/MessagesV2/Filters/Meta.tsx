@@ -6,7 +6,7 @@ import { SeekDirection, TopicMessageConsuming } from 'generated-sources';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import * as S from './Messages.styled';
+import * as S from './Filters.styled';
 
 interface MetaProps {
   meta?: TopicMessageConsuming;
@@ -49,8 +49,8 @@ const Meta: React.FC<MetaProps> = ({ meta = {}, phase, isFetching, abort }) => {
         {isPhaseVisible && <div>{phase}</div>}
         {isTailing && (
           <>
-            <div>Loading messages.</div>
             <S.StopLoading onClick={abort}>Stop loading</S.StopLoading>
+            <div>Loading messages.</div>
           </>
         )}
       </S.MetaMessage>

@@ -4,8 +4,8 @@ import Table, { TimestampCell } from 'components/common/NewTable';
 import { TopicMessage } from 'generated-sources';
 import TruncatedTextCell from 'components/common/NewTable/TimestampCell copy';
 
-import MessageContent from './MessageContent/MessageContent';
 import ActionsCell from './ActionsCell';
+import MessageContent from './MessageContent/MessageContent';
 
 const MessagesTable: React.FC<{ messages: TopicMessage[] }> = ({
   messages,
