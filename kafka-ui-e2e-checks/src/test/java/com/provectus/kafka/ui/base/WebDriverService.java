@@ -31,7 +31,6 @@ public class WebDriverService {
   public static void start() {
     if (webDriverContainer != null ) {
       log.info("container running? {}", webDriverContainer.isRunning());
-      log.info("container health? {}", webDriverContainer.isHealthy());
       log.info("Container has been already initialized, skipping");
       return;
     }
