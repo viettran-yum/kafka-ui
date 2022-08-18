@@ -54,17 +54,6 @@ public class BaseTest {
     screenshooter.compareScreenshots(name);
   }
 
-  public void compareScreenshots(String name, Boolean shouldUpdateScreenshots) {
-    screenshooter.compareScreenshots(name, shouldUpdateScreenshots);
-  }
-
-  @BeforeEach
-  public void setWebDriver() {
-    RemoteWebDriver remoteWebDriver = WebDriverService.getWebDriverContainer().getWebDriver();
-    WebDriverRunner.setWebDriver(remoteWebDriver);
-    remoteWebDriver.manage().window().setSize(new Dimension(1440, 1024));
-  }
-
   @BeforeAll
   public static void start() {
     WebDriverService.start();

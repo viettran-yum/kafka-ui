@@ -1,8 +1,10 @@
 package com.provectus.kafka.ui.base;
 
+import com.codeborne.selenide.WebDriverRunner;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testcontainers.Testcontainers;
 import org.testcontainers.containers.BrowserWebDriverContainer;
@@ -27,8 +29,10 @@ public class WebDriverService {
   }
 
   public static void start() {
-    if (webDriverContainer != null && webDriverContainer.isRunning()) {
-      log.info("Container has already started, skipping");
+    if (webDriverContainer != null ) {
+      log.info("container running? {}", webDriverContainer.isRunning());
+      log.info("container health? {}", webDriverContainer.isHealthy());
+      log.info("Container has been already initialized, skipping");
       return;
     }
 
@@ -59,6 +63,8 @@ public class WebDriverService {
       Testcontainers.exposeHostPorts(8080);
       log.info("Starting browser container");
       webDriverContainer.start();
+      WebDriverRunner.setWebDriver(webDriverContainer.getWebDriver());
+      webDriverContainer.getWebDriver().manage().window().setSize(new Dimension(1440, 1024));
     } catch (Throwable e) {
       log.error("Couldn't start a container", e);
     }
