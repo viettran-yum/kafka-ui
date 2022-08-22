@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import {
-  clusterTopicMessagesRelativePath,
-  RouteParamsClusterTopic,
-} from 'lib/paths';
+import { RouteParamsClusterTopic } from 'lib/paths';
 import jsf from 'json-schema-faker';
 import { Button } from 'components/common/Button/Button';
 import Editor from 'components/common/Editor/Editor';
@@ -30,7 +26,6 @@ type FieldValues = Partial<{
 
 const SendMessage: React.FC = () => {
   const { clusterName, topicName } = useAppParams<RouteParamsClusterTopic>();
-  const navigate = useNavigate();
   const { data: topic } = useTopicDetails({ clusterName, topicName });
   const { data: messageSchema } = useTopicMessageSchema({
     clusterName,
@@ -129,7 +124,6 @@ const SendMessage: React.FC = () => {
         headers,
         partition: !partition ? 0 : partition,
       });
-      navigate(`../${clusterTopicMessagesRelativePath}`);
     }
   };
 

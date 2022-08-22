@@ -89,6 +89,7 @@ const theme = {
     minWidth: '1200px',
     navBarWidth: '201px',
     navBarHeight: '53px',
+    rightSidebarWidth: '70vw',
 
     stuffColor: Colors.neutral[5],
     stuffBorderColor: Colors.neutral[10],

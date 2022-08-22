@@ -33,6 +33,8 @@ import {
 } from 'redux/reducers/topicMessages/topicMessagesSlice';
 import { CleanUpPolicy } from 'generated-sources';
 import PageLoader from 'components/common/PageLoader/PageLoader';
+import SlidingSidebar from 'components/common/SlidingSidebar';
+import useBoolean from 'lib/hooks/useBoolean';
 
 import Messages from './Messages/Messages';
 import MessagesV2 from './MessagesV2/Messages';
@@ -45,6 +47,11 @@ import SendMessage from './SendMessage/SendMessage';
 
 const Topic: React.FC = () => {
   const dispatch = useAppDispatch();
+  const {
+    value: isSidebarOpen,
+    setFalse: closeSidebar,
+    setTrue: openSidebar,
+  } = useBoolean(false);
   const { clusterName, topicName } = useAppParams<RouteParamsClusterTopic>();
   const navigate = useNavigate();
   const deleteTopic = useDeleteTopic(clusterName);
@@ -77,7 +84,7 @@ const Topic: React.FC = () => {
         <Button
           buttonSize="M"
           buttonType="primary"
-          to={clusterTopicSendMessagePath(clusterName, topicName)}
+          onClick={openSidebar}
           disabled={isReadOnly}
         >
           Produce Message
@@ -199,6 +206,9 @@ const Topic: React.FC = () => {
           />
         </Routes>
       </Suspense>
+      <SlidingSidebar open={isSidebarOpen} onClose={closeSidebar}>
+        <SendMessage />
+      </SlidingSidebar>
     </>
   );
 };

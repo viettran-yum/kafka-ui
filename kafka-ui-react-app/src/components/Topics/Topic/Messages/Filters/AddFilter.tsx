@@ -5,7 +5,7 @@ import { FilterEdit } from 'components/Topics/Topic/Messages/Filters/FilterModal
 import SavedFilters from 'components/Topics/Topic/Messages/Filters/SavedFilters';
 import SavedIcon from 'components/common/Icons/SavedIcon';
 import QuestionIcon from 'components/common/Icons/QuestionIcon';
-import useModal from 'lib/hooks/useModal';
+import useBoolean from 'lib/hooks/useBoolean';
 
 import AddEditFilterContainer from './AddEditFilterContainer';
 import InfoModal from './InfoModal';
@@ -35,7 +35,7 @@ const AddFilter: React.FC<FilterModalProps> = ({
 }) => {
   const [savedFilterState, setSavedFilterState] =
     React.useState<boolean>(false);
-  const { isOpen, toggle } = useModal();
+  const { value: isOpen, toggle } = useBoolean();
 
   const onSubmit = React.useCallback(
     async (values: AddMessageFilters) => {
